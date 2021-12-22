@@ -1,0 +1,58 @@
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+
+{
+    "username":"bao1",
+    "password":"bao"
+}
+
+###
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+
+{
+    "username":"bao",
+    "password":"bao"
+}
+
+
+###
+
+POST http://localhost:5000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWMxZTg5MTkyMDczMDA0ZGFhZGZiYjAiLCJpYXQiOjE2NDAxODUzMTN9.VGDuHIIbQbbWFtk57ZcVrGpwpeSoK2leqv7eQUWo4So
+
+
+{
+    "title":"bao2",
+    "decsription":"bao1",
+    "url":"google.com",
+    "status":"LEARNING"
+}
+
+###
+GET http://localhost:5000/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWJmNWU2YmZiNTNiNWRlMjI4NTA0MWEiLCJpYXQiOjE2NDAxODc0NzB9.JkW17Bu_LFL3noJLl7tmd2zrS8fta3Lov2KuuXT-sb8
+
+###
+
+PUT http://localhost:5000/api/posts/61c33aca6905f23ba3301fe2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWMxZTg5MTkyMDczMDA0ZGFhZGZiYjAiLCJpYXQiOjE2NDAxODUzMTN9.VGDuHIIbQbbWFtk57ZcVrGpwpeSoK2leqv7eQUWo4So
+
+
+{
+    "title":"Vue",
+    "decsription":"czczcz",
+    "url":"youtube.com",
+    "status":"LEARNING"
+}
+
+###
+
+DELETE  http://localhost:5000/api/posts/61c33e4d954dd237e8c418c1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWMxZTg5MTkyMDczMDA0ZGFhZGZiYjAiLCJpYXQiOjE2NDAxODUzMTN9.VGDuHIIbQbbWFtk57ZcVrGpwpeSoK2leqv7eQUWo4So
