@@ -16,9 +16,9 @@ app.use(cors());
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postRouter);
 
-app.use('/', (req, res) => {
-  res.send('Hello');
-});
+// app.use('/', (req, res) => {
+//   res.send('Hello');
+// });
 // app.use('', (req, res) => {
 //   res.send('Not Found');
 // });
