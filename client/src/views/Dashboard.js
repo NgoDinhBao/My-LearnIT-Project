@@ -2,8 +2,12 @@ import { useContext, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/esm/Button";
 import Col from "react-bootstrap/esm/Col";
+import OverlayTrigger from "react-bootstrap/esm/OverlayTrigger";
 import Row from "react-bootstrap/esm/Row";
+import Tooltip from "react-bootstrap/esm/Tooltip";
+import Toast from "react-bootstrap/esm/Toast";
 import Spinner from "react-bootstrap/Spinner";
+import addIcon from "../assets/plus-circle-fill.svg";
 import AddPostModal from "../components/posts/AddPostModal";
 import SinglePost from "../components/posts/SinglePost";
 import { AuthContext } from "../contexts/AuthContext";
@@ -22,9 +26,13 @@ function Dashboard(props) {
   const {
     postState: { posts, postLoading },
     getPosts,
+    setShowAddPostModal,
+    showToast: { show, message, type },
+    setShowToast,
   } = useContext(PostContext);
 
   useEffect(() => getPosts(), []);
+
   let body = null;
 
   if (postLoading) {
@@ -54,10 +62,22 @@ function Dashboard(props) {
         <Row className="row-cols-1 row-cols-md-3 g-4 mx-auto mt-3">
           {posts.map((post) => (
             <Col key={post._id} className="my-2">
-              <SinglePost post={post}/>
+              <SinglePost post={post} />
             </Col>
           ))}
         </Row>
+        {/* add modal */}
+        <OverlayTrigger
+          placement="left"
+          overlay={<Tooltip>Add a new thing to learn</Tooltip>}
+        >
+          <Button
+            className="btn-floating"
+            onClick={setShowAddPostModal.bind(this, true)}
+          >
+            <img src={addIcon} alt="add-post" width={60} height={60} />
+          </Button>
+        </OverlayTrigger>
       </>
     );
   }
@@ -65,7 +85,21 @@ function Dashboard(props) {
   return (
     <>
       {body}
-      <AddPostModal/>
+      <AddPostModal />
+      <Toast
+        show={show}
+        style={{ position: "fixed", top: "20%", right: "10px" }}
+        className={`bg-${type} text-white`}
+        onClose={setShowToast.bind(this, {
+          show: false,
+          message: "",
+          type: null,
+        })}
+        delay={3000}
+        autohide
+      >
+        <Toast.Body>{message}</Toast.Body>
+      </Toast>
     </>
   );
 }

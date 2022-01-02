@@ -1,7 +1,12 @@
 import axios from "axios";
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useState } from "react";
 import { postReducer } from "../reducers/PostReducer";
-import { apiUrl, POST_LOADED_FAIL, POST_LOADED_SUCCESS } from "./constants";
+import {
+  ADD_POST,
+  apiUrl,
+  POST_LOADED_FAIL,
+  POST_LOADED_SUCCESS,
+} from "./constants";
 
 export const PostContext = createContext();
 
@@ -10,6 +15,13 @@ const PostContextProvider = ({ children }) => {
   const [postState, dispatch] = useReducer(postReducer, {
     posts: [],
     postLoading: true,
+  });
+
+  const [showAddPostModal, setShowAddPostModal] = useState(false);
+  const [showToast, setShowToast] = useState({
+    show: false,
+    message: "",
+    type: null,
   });
 
   //Get all post
@@ -25,8 +37,30 @@ const PostContextProvider = ({ children }) => {
     }
   };
 
+  //All Post
+  const addPost = async (newPost) => {
+    try {
+      const response = await axios.post(`${apiUrl}/posts`, newPost);
+      if (response.data.success) {
+        dispatch({ type: ADD_POST, payload: response.data.post });
+        return response.data;
+      }
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else return { success: false, message: error.message };
+    }
+  };
+
   //Post context data
-  const postContextData = { postState, getPosts };
+  const postContextData = {
+    postState,
+    getPosts,
+    showAddPostModal,
+    setShowAddPostModal,
+    addPost,
+    showToast,
+    setShowToast
+  };
   return (
     <PostContext.Provider value={postContextData}>
       {children}

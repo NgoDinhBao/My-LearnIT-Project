@@ -14,6 +14,7 @@ function SinglePost({ post: { _id, status, title, description, url } }) {
       : status === "LEARNING"
       ? "warning"
       : "danger";
+  const des = description ? description : title;
   return (
     <Card className="shadow" border={borderCls}>
       <Card.Body>
@@ -26,13 +27,11 @@ function SinglePost({ post: { _id, status, title, description, url } }) {
               </Badge>
             </Col>
             <Col className="text-right">
-                <ActionButtons url={url} _id={_id}/>
+              <ActionButtons url={url} _id={_id} />
             </Col>
           </Row>
         </Card.Title>
-        <Card.Text>
-            {description}
-        </Card.Text>
+        <Card.Text>{des}</Card.Text>
       </Card.Body>
     </Card>
   );
