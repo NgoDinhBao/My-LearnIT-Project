@@ -2,12 +2,14 @@ import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import bcryptjs from 'bcryptjs';
 
+//Check if user is logged in
 export const getUser = async (req, res) => {
   try {
-    const user = await User.find();
-    res.status(200).json(user);
+    const user = await User.findById(req.userId);
+    if (!user) return res.status(400).json({ success: false, message: 'User not found' });
+    return res.status(200).json({ success: true, user });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message }); 
   }
 };
 
@@ -24,7 +26,9 @@ export const createUser = async (req, res) => {
     const newUser = new User({ username, password });
     await newUser.save();
 
-    res.json({ success: true, message: 'OK' });
+    //Return token
+    const accessToken = jwt.sign({ userId: newUser._id }, process.env.ACCESS_TOKEN_SECRET);
+    res.json({ success: true, message: 'Register success!', accessToken });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message }); //server error
   }
@@ -45,7 +49,6 @@ export const loginUser = async (req, res) => {
     //Return token
     const accessToken = jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET);
     res.json({ success: true, message: 'Login success!', accessToken });
-
   } catch (error) {
     res.status(500).json({ success: false, message: error.message }); //server error
   }
