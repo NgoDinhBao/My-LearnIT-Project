@@ -59,7 +59,7 @@ const AuthContextProvider = ({ children }) => {
   const registerUser = async (userForm) => {
     try {
       const response = await axios.post(`${apiUrl}/auth/register`, userForm);
-      console.log(response)
+      console.log(response);
       if (response.data.success)
         localStorage.setItem(
           LOCAL_STORAGE_TOKEN_NAME,
@@ -75,8 +75,16 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const logoutUser = () => {
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+    dispatch({
+      type: "SET_AUTH",
+      payload: { isAuthenticated: false, user: null },
+    });
+  };
+
   //Context data
-  const authContextData = { loginUser, registerUser, authState };
+  const authContextData = { loginUser, registerUser, logoutUser, authState };
 
   //Return provider
   return (
