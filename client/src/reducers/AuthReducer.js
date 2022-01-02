@@ -1,3 +1,5 @@
+import { SET_AUTH } from "../contexts/constants";
+
 export const authReducer = (state, action) => {
   const {
     type,
@@ -5,10 +7,10 @@ export const authReducer = (state, action) => {
   } = action;
 
   switch (type) {
-    case "SET_AUTH":
+    case SET_AUTH:
       return { ...state, authLoading: false, isAuthenticated, user };
 
     default:
-      throw new Error();
+      return state;
   }
 };

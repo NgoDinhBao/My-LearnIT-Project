@@ -3,9 +3,9 @@ import Post from '../models/Post.js';
 export const getPosts = async (req, res) => {
   try {
     // console.log(req.userId);
-    const post = await Post.find({ user: req.userId });
+    const posts = await Post.find({ user: req.userId });
     // const post = await Post.find({ user: req.userId }).populate('user');
-    res.status(200).json({ success: true, post });
+    res.status(200).json({ success: true, posts });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -21,7 +21,7 @@ export const createPost = async (req, res) => {
     const newPost = new Post({
       title,
       description,
-      url: url.startsWith('https//') ? url : `https//${url}`,
+      url: url.startsWith('https://') ? url : `https://${url}`,
       status: status || 'TO LEARN',
       user: req.userId,
     });
@@ -43,7 +43,7 @@ export const updatePost = async (req, res) => {
     let updatePost = {
       title,
       description: description || '',
-      url: (url.startsWith('https//') ? url : `https//${url}`) || '',
+      url: (url.startsWith('https://') ? url : `https://${url}`) || '',
       status: status || 'TO LEARN',
     };
     const postUpdateCondition = { _id: req.params.id, user: req.userId };

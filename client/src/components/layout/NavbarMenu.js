@@ -63,6 +63,7 @@ function NavbarMenu(props) {
           height="32"
           className="mr-2"
         />
+        Logout
       </Button>
     </Navbar>
   );

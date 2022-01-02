@@ -42,7 +42,7 @@ function LoginForm(props) {
     <>
       <Form className="my-4" onSubmit={login}>
         <AlertMessage info={alert} />
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-3">
           <Form.Control
             type="text"
             placeholder="Username"
@@ -52,7 +52,7 @@ function LoginForm(props) {
             onChange={onChangeLoginForm}
           />
         </Form.Group>
-        <Form.Group className="mb-3">
+        <Form.Group className="mt-3">
           <Form.Control
             type="password"
             placeholder="Password"

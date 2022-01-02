@@ -1,7 +1,7 @@
 import { createContext, useEffect, useReducer } from "react";
 import axios from "axios";
 import { authReducer } from "../reducers/AuthReducer";
-import { apiUrl, LOCAL_STORAGE_TOKEN_NAME } from "./constants";
+import { apiUrl, LOCAL_STORAGE_TOKEN_NAME, SET_AUTH } from "./constants";
 import { setAuthToken } from "../utils/setAuhToken";
 
 export const AuthContext = createContext();
@@ -17,20 +17,24 @@ const AuthContextProvider = ({ children }) => {
   const loadUser = async () => {
     if (localStorage[LOCAL_STORAGE_TOKEN_NAME]) {
       setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME]);
-    }
-
-    try {
-      const response = await axios.get(`${apiUrl}/auth`);
-      if (response.data.success)
+      try {
+        const response = await axios.get(`${apiUrl}/auth`);
+        if (response.data.success)
+          dispatch({
+            type: SET_AUTH,
+            payload: { isAuthenticated: true, user: response.data.user },
+          });
+      } catch (error) {
+        localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+        setAuthToken(null);
         dispatch({
-          type: "SET_AUTH",
-          payload: { isAuthenticated: true, user: response.data.user },
+          type: SET_AUTH,
+          payload: { isAuthenticated: false, user: null },
         });
-    } catch (error) {
-      localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
-      setAuthToken(null);
-      dispatch({
-        type: "SET_AUTH",
+      }
+    } else {
+      return dispatch({
+        type: SET_AUTH,
         payload: { isAuthenticated: false, user: null },
       });
     }
@@ -78,7 +82,7 @@ const AuthContextProvider = ({ children }) => {
   const logoutUser = () => {
     localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
     dispatch({
-      type: "SET_AUTH",
+      type: SET_AUTH,
       payload: { isAuthenticated: false, user: null },
     });
   };

@@ -9,7 +9,7 @@ import NavbarMenu from "../layout/NavbarMenu";
 ProtectedRoute.propTypes = {};
 
 function ProtectedRoute({ component: Component, ...rest }) {
-  console.log({ component: Component, ...rest });
+  // console.log({ component: Component, ...rest });
   const {
     authState: { authLoading, isAuthenticated },
   } = useContext(AuthContext);
