@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 
 Landing.propTypes = {};
 
 function Landing(props) {
-  return <div><h1>Landing</h1></div>;
+  return <Redirect to='/login' />
 }
 
 export default Landing;
