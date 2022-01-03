@@ -12,6 +12,7 @@ import AddPostModal from "../components/posts/AddPostModal";
 import SinglePost from "../components/posts/SinglePost";
 import { AuthContext } from "../contexts/AuthContext";
 import { PostContext } from "../contexts/PostContext";
+import UpdatePostModal from "../components/posts/UpdatePostModal";
 
 Dashboard.propTypes = {};
 
@@ -24,7 +25,7 @@ function Dashboard(props) {
   } = useContext(AuthContext);
 
   const {
-    postState: { posts, postLoading },
+    postState: { post, posts, postLoading },
     getPosts,
     setShowAddPostModal,
     showToast: { show, message, type },
@@ -51,7 +52,12 @@ function Dashboard(props) {
             <Card.Text>
               Click the button below to track your first skill to learn
             </Card.Text>
-            <Button variant="primary">LearnIT!</Button>
+            <Button
+              variant="primary"
+              onClick={setShowAddPostModal.bind(this, true)}
+            >
+              LearnIT!
+            </Button>
           </Card.Body>
         </Card>
       </>
@@ -86,6 +92,7 @@ function Dashboard(props) {
     <>
       {body}
       <AddPostModal />
+      {post !== null && <UpdatePostModal />}
       <Toast
         show={show}
         style={{ position: "fixed", top: "20%", right: "10px" }}

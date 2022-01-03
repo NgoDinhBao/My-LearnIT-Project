@@ -12,16 +12,8 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
-
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postRouter);
-
-// app.use('/', (req, res) => {
-//   res.send('Hello');
-// });
-// app.use('', (req, res) => {
-//   res.send('Not Found');
-// });
 
 const CONNECTION_URL = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.uh2a7.mongodb.net/learn-it?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 5000;
